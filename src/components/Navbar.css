@@ -1,0 +1,340 @@
+.navbar {
+  width: 100%;
+  height: 75px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 6%;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-bottom: 1px solid #e5e7eb;
+
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.navbar-logo {
+  width: 48px;
+  height: 48px;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+.project-name {
+  color: #172033;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.3px;
+
+  white-space: nowrap;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+
+  gap: 30px;
+}
+
+.navbar-links button {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #475569;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.navbar-links button:hover {
+  color: #4f46e5;
+}
+
+.navbar-links .profile-button {
+  color: #475569;
+}
+
+.navbar-links .profile-button:hover {
+  color: #4f46e5;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+
+.login-button,
+.signup-button {
+  height: 40px;
+
+  padding: 0 17px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* LOGIN */
+
+.login-button {
+  border: 1px solid #dbe2ea;
+
+  background: #ffffff;
+
+  color: #334155;
+}
+
+.login-button:hover {
+  border-color: #4f46e5;
+
+  color: #4f46e5;
+
+  background: #f8fafc;
+}
+
+/* SIGN UP */
+
+.signup-button {
+  border: 1px solid #4f46e5;
+
+  background: #4f46e5;
+
+  color: #ffffff;
+}
+
+.signup-button:hover {
+  border-color: #4338ca;
+
+  background: #4338ca;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+  .navbar {
+    padding: 0 25px;
+  }
+
+  .navbar-links {
+    gap: 20px;
+  }
+
+  .project-name {
+    font-size: 15px;
+  }
+}
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 850px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .navbar-links {
+    gap: 15px;
+  }
+
+  .navbar-links button {
+    font-size: 12px;
+  }
+
+  .project-name {
+    font-size: 14px;
+  }
+
+  .navbar-logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .login-button,
+  .signup-button {
+    padding: 0 13px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+  .navbar {
+    height: auto;
+
+    min-height: 70px;
+
+    padding: 10px 15px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+  }
+
+  /* LOGO */
+
+  .navbar-brand {
+    gap: 7px;
+  }
+
+  .navbar-logo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .project-name {
+    font-size: 13px;
+
+    letter-spacing: -0.2px;
+  }
+
+  /* AUTH BUTTONS */
+
+  .navbar-actions {
+    margin-left: auto;
+
+    gap: 6px;
+  }
+
+  .login-button,
+  .signup-button {
+    height: 36px;
+
+    padding: 0 11px;
+
+    font-size: 11px;
+  }
+
+  /* NAVIGATION */
+
+  .navbar-links {
+    order: 3;
+
+    width: 100%;
+
+    padding: 10px 0 5px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .navbar-links button {
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 450px) {
+  .navbar {
+    padding: 9px 12px;
+  }
+
+  .navbar-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .project-name {
+    font-size: 12px;
+  }
+
+  .navbar-actions {
+    gap: 5px;
+  }
+
+  .login-button,
+  .signup-button {
+    height: 34px;
+
+    padding: 0 9px;
+
+    font-size: 10px;
+  }
+
+  .navbar-links {
+    gap: 15px;
+  }
+
+  .navbar-links button {
+    font-size: 10px;
+  }
+}
+
+/* =========================================
+   VERY SMALL SCREENS
+========================================= */
+
+@media (max-width: 360px) {
+  .project-name {
+    max-width: 135px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+  .navbar-links {
+    gap: 12px;
+  }
+}
