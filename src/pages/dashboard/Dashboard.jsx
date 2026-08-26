@@ -6,6 +6,13 @@ import "./Dashboard.css";
 function Dashboard() {
   const navigate = useNavigate();
 
+  // Get logged-in user
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  // Get username
+  const username = user?.username || "Student";
+
   const recommendedOpportunities = [
     {
       id: 1,
@@ -49,12 +56,11 @@ function Dashboard() {
 
       <main className="dashboard-container">
         {/* WELCOME */}
-
         <section className="dashboard-welcome">
           <div>
             <span className="dashboard-label">STUDENT DASHBOARD</span>
 
-            <h1>Welcome back, Student</h1>
+            <h1>Welcome back, {username}</h1>
 
             <p>
               Keep track of your opportunities, applications, and important
@@ -71,7 +77,6 @@ function Dashboard() {
         </section>
 
         {/* STATISTICS */}
-
         <section className="dashboard-stats">
           <div className="stat-card">
             <span className="stat-title">Saved Opportunities</span>
@@ -107,10 +112,8 @@ function Dashboard() {
         </section>
 
         {/* MAIN DASHBOARD GRID */}
-
         <section className="dashboard-grid">
           {/* RECOMMENDED */}
-
           <div className="dashboard-section">
             <div className="section-top">
               <div>
@@ -156,7 +159,6 @@ function Dashboard() {
           </div>
 
           {/* APPLICATIONS */}
-
           <div className="dashboard-section applications-section">
             <div className="section-top">
               <div>
@@ -189,7 +191,6 @@ function Dashboard() {
         </section>
 
         {/* DEADLINE SECTION */}
-
         <section className="deadline-section">
           <div className="deadline-content">
             <span className="dashboard-label">DON'T MISS OUT</span>

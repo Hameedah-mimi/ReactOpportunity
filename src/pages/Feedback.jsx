@@ -27,8 +27,8 @@ function Feedback() {
           <h1>Help us improve.</h1>
 
           <p>
-            Your feedback helps us make Student Opportunity Hub better and more
-            useful for students.
+            Your feedback helps us make Opportuna better and more useful for
+            students.
           </p>
         </section>
 

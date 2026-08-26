@@ -63,7 +63,7 @@ function Home() {
         {/* HERO SECTION */}
         <section className="hero-section">
           <div className="hero-content">
-            <span className="hero-label">STUDENT OPPORTUNITY HUB</span>
+            <span className="hero-label">Opportuna</span>
 
             <h1>
               Discover opportunities.
@@ -105,11 +105,7 @@ function Home() {
             <div className="hero-logo-container">
               <div className="hero-logo-glow"></div>
 
-              <img
-                src={logo}
-                alt="Student Opportunity Hub"
-                className="hero-logo"
-              />
+              <img src={logo} alt="Opportuna" className="hero-logo" />
             </div>
 
             <div className="hero-floating-card card-top">
@@ -233,11 +229,7 @@ function Home() {
         {/* CTA */}
         <section className="cta-section">
           <div className="cta-logo">
-            <img
-              src={logo}
-              alt="Student Opportunity Hub"
-              className="cta-logo-image"
-            />
+            <img src={logo} alt="Opportuna" className="cta-logo-image" />
           </div>
 
           <div className="cta-content">

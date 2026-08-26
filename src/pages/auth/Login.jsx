@@ -10,26 +10,41 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  // Normal login
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Login:", {
-      email,
-      password,
-    });
+    try {
+      const response = await api.post("auth/login/", {
+        email,
+        password,
+      });
 
-    navigate("/dashboard");
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+      console.log("Django error:", error.response?.data);
+
+      alert("Login failed. Check your email and password.");
+    }
   };
 
-  // ADD THIS
+  // Google login
   const handleGoogleLogin = async () => {
     try {
-      const idToken = await signInWithGoogle();
+      const { idToken } = await signInWithGoogle();
 
       const response = await api.post("auth/google-login/", {
-        idToken: idToken,
+        idToken,
       });
-      console.log(response.data);
+
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       navigate("/dashboard");
     } catch (error) {
@@ -42,7 +57,7 @@ function Login() {
       <div className="auth-container">
         <h1>Welcome Back</h1>
 
-        <p>Login to your Student Opportunity Hub account.</p>
+        <p>Login to your Opportuna account.</p>
 
         <form onSubmit={handleSubmit}>
           <label>Email</label>

@@ -5,17 +5,19 @@ import "./Auth.css";
 
 function Register() {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     password2: "",
     role: "student",
+    country: "",
+    education_level: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [serverErrors, setServerErrors] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,6 +28,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerErrors(null);
 
     if (formData.password !== formData.password2) {
       alert("Passwords do not match.");
@@ -39,19 +42,22 @@ function Register() {
         password: formData.password,
         password2: formData.password2,
         role: formData.role,
+        country: formData.country,
+        education_level: formData.education_level,
       });
 
       console.log("Registration successful:", response.data);
-
       alert("Account created successfully.");
-
       navigate("/login");
     } catch (error) {
       console.error("Registration failed:", error);
 
-      console.log("Django error:", error.response?.data);
-
-      alert("Registration failed. Please check your information.");
+      if (error.response?.data) {
+        console.log("Django error details:", error.response.data);
+        setServerErrors(error.response.data);
+      } else {
+        alert("Registration failed. Please check your network connection.");
+      }
     }
   };
 
@@ -59,12 +65,27 @@ function Register() {
     <div className="auth-page">
       <div className="auth-container">
         <h1>Create Account</h1>
+        <p>Join Opportuna today.</p>
 
-        <p>Join Student Opportunity Hub today.</p>
+        {/* Dynamic Server Error Messages Rendering */}
+        {serverErrors && (
+          <div
+            className="error-summary"
+            style={{ color: "red", marginBottom: "15px", fontSize: "14px" }}
+          >
+            {Object.keys(serverErrors).map((key) => (
+              <p key={key}>
+                <strong>{key}:</strong>{" "}
+                {Array.isArray(serverErrors[key])
+                  ? serverErrors[key].join(" ")
+                  : serverErrors[key]}
+              </p>
+            ))}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <label>Username</label>
-
           <input
             type="text"
             name="username"
@@ -75,7 +96,6 @@ function Register() {
           />
 
           <label>Email</label>
-
           <input
             type="email"
             name="email"
@@ -85,8 +105,27 @@ function Register() {
             required
           />
 
-          <label>Password</label>
+          <label>Country</label>
+          <input
+            type="text"
+            name="country"
+            placeholder="Enter your country"
+            value={formData.country}
+            onChange={handleChange}
+            required
+          />
 
+          <label>Education Level</label>
+          <input
+            type="text"
+            name="education_level"
+            placeholder="e.g. Undergraduate, High School"
+            value={formData.education_level}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Password</label>
           <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
@@ -96,7 +135,6 @@ function Register() {
               onChange={handleChange}
               required
             />
-
             <button
               type="button"
               className="password-toggle"
@@ -108,7 +146,6 @@ function Register() {
           </div>
 
           <label>Confirm Password</label>
-
           <div className="password-wrapper">
             <input
               type={showPassword2 ? "text" : "password"}
@@ -118,7 +155,6 @@ function Register() {
               onChange={handleChange}
               required
             />
-
             <button
               type="button"
               className="password-toggle"
@@ -130,7 +166,6 @@ function Register() {
           </div>
 
           <label>Account Type</label>
-
           <select name="role" value={formData.role} onChange={handleChange}>
             <option value="student">Student</option>
             <option value="organization">Organization</option>

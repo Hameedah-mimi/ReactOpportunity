@@ -13,7 +13,7 @@ function About() {
       {/* HERO */}
       <section className="about-hero">
         <div className="about-hero-content">
-          <span className="about-label">ABOUT STUDENT OPPORTUNITY HUB</span>
+          <span className="about-label">ABOUT Opportuna</span>
 
           <h1>
             Connecting Students With
@@ -21,9 +21,9 @@ function About() {
           </h1>
 
           <p>
-            Student Opportunity Hub is a platform designed to help students
-            discover opportunities that can support their academic,
-            professional, and personal development.
+            Opportuna is a platform designed to help students discover
+            opportunities that can support their academic, professional, and
+            personal development.
           </p>
         </div>
       </section>
@@ -43,9 +43,9 @@ function About() {
             </p>
 
             <p>
-              Student Opportunity Hub brings these opportunities together in one
-              place, making it easier for students to discover options that
-              match their interests, skills, and goals.
+              Opportuna brings these opportunities together in one place, making
+              it easier for students to discover options that match their
+              interests, skills, and goals.
             </p>
           </div>
 

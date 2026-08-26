@@ -12,10 +12,10 @@ function Footer() {
         <div className="footer-brand">
           <div className="footer-logo" onClick={() => navigate("/")}>
             <div className="footer-logo-icon">
-              <img src={logo} alt="Student Opportunity Hub" />
+              <img src={logo} alt="Opportuna" />
             </div>
 
-            <span>Student Opportunity Hub</span>
+            <span>Opportuna</span>
           </div>
 
           <p>
@@ -98,7 +98,7 @@ function Footer() {
 
       {/* FOOTER BOTTOM */}
       <div className="footer-bottom">
-        <p>© 2026 Student Opportunity Hub. All rights reserved.</p>
+        <p>© 2026 Opportuna. All rights reserved.</p>
 
         <p>Built for students, by students.</p>
       </div>

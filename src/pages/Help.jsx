@@ -16,7 +16,7 @@ function Help() {
 
           <p>
             Find answers to common questions and learn how to make the most of
-            Student Opportunity Hub.
+            Opportuna.
           </p>
         </section>
 

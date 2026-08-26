@@ -1,80 +1,47 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import api from "../../services/api";
 import "./OpportunityDetails.css";
 
 function OpportunityDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const opportunities = [
-    {
-      id: 1,
-      title: "Future Leaders Scholarship",
-      organization: "Education Foundation",
-      category: "Scholarship",
-      location: "Nigeria",
-      deadline: "October 10, 2026",
-      description:
-        "A scholarship opportunity for students interested in developing their academic and leadership skills.",
-      requirements: [
-        "Currently enrolled in an educational institution",
-        "Demonstrate academic commitment",
-        "Submit a completed application",
-        "Provide the required supporting documents",
-      ],
-    },
-    {
-      id: 2,
-      title: "Technology Internship Program",
-      organization: "Tech Solutions",
-      category: "Internship",
-      location: "Lagos, Nigeria",
-      deadline: "September 30, 2026",
-      description:
-        "Gain practical experience by working with professionals in the technology industry.",
-      requirements: [
-        "Currently studying a technology-related course",
-        "Basic programming knowledge",
-        "Good communication skills",
-        "Available for the duration of the internship",
-      ],
-    },
-    {
-      id: 3,
-      title: "Student Innovation Challenge",
-      organization: "Innovation Hub",
-      category: "Competition",
-      location: "Online",
-      deadline: "September 15, 2026",
-      description:
-        "Showcase your ideas and develop innovative solutions to real-world problems.",
-      requirements: [
-        "Open to students",
-        "Submit an original project idea",
-        "Complete the application form",
-        "Follow the competition guidelines",
-      ],
-    },
-    {
-      id: 4,
-      title: "Young Professionals Fellowship",
-      organization: "Global Development Network",
-      category: "Fellowship",
-      location: "Online",
-      deadline: "November 5, 2026",
-      description:
-        "Connect with other young professionals and participate in professional development activities.",
-      requirements: [
-        "Currently enrolled or recently graduated",
-        "Strong interest in professional development",
-        "Complete the application",
-        "Participate in fellowship activities",
-      ],
-    },
-  ];
+  const [opportunity, setOpportunity] = useState(null);
 
-  const opportunity = opportunities.find((item) => item.id === Number(id));
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getOpportunity();
+  }, [id]);
+
+  const getOpportunity = async () => {
+    try {
+      const response = await api.get(`opportunities/${id}/`);
+
+      setOpportunity(response.data);
+    } catch (error) {
+      console.error("Failed to load opportunity:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="details-page">
+        <Navbar />
+
+        <main className="not-found">
+          <h1>Loading...</h1>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
 
   if (!opportunity) {
     return (
@@ -115,28 +82,33 @@ function OpportunityDetails() {
 
               <h1>{opportunity.title}</h1>
 
-              <p className="details-organization">{opportunity.organization}</p>
+              <p className="details-organization">
+                {opportunity.organization_name}
+              </p>
             </div>
-
-            <button className="save-button" type="button">
-              Save Opportunity
-            </button>
           </div>
 
           <div className="details-info">
             <div className="info-item">
               <span>Location</span>
-              <strong>{opportunity.location}</strong>
+
+              <strong>{opportunity.location || "Not specified"}</strong>
             </div>
 
             <div className="info-item">
               <span>Deadline</span>
-              <strong>{opportunity.deadline}</strong>
+
+              <strong>
+                {opportunity.deadline
+                  ? new Date(opportunity.deadline).toLocaleDateString()
+                  : "Not specified"}
+              </strong>
             </div>
 
             <div className="info-item">
-              <span>Category</span>
-              <strong>{opportunity.category}</strong>
+              <span>Funding</span>
+
+              <strong>{opportunity.funding_type || "Not specified"}</strong>
             </div>
           </div>
 
@@ -147,25 +119,48 @@ function OpportunityDetails() {
               <p>{opportunity.description}</p>
             </div>
 
-            <div className="requirements-section">
-              <h2>Requirements</h2>
+            {opportunity.eligibility && (
+              <div className="requirements-section">
+                <h2>Eligibility</h2>
 
-              <ul>
-                {opportunity.requirements.map((requirement, index) => (
-                  <li key={index}>{requirement}</li>
-                ))}
-              </ul>
-            </div>
+                <p>{opportunity.eligibility}</p>
+              </div>
+            )}
+
+            {opportunity.requirements && (
+              <div className="requirements-section">
+                <h2>Requirements</h2>
+
+                <p>{opportunity.requirements}</p>
+              </div>
+            )}
+
+            {opportunity.benefits && (
+              <div className="requirements-section">
+                <h2>Benefits</h2>
+
+                <p>{opportunity.benefits}</p>
+              </div>
+            )}
 
             <div className="application-section">
               <h2>Ready to Apply?</h2>
 
               <p>
-                Make sure you meet the requirements before submitting your
-                application.
+                Visit the official application page to learn more and apply.
               </p>
 
-              <button className="apply-button" type="button">
+              <button
+                className="apply-button"
+                type="button"
+                onClick={() =>
+                  window.open(
+                    opportunity.application_url,
+                    "_blank",
+                    "noopener,noreferrer",
+                  )
+                }
+              >
                 Apply Now
               </button>
             </div>

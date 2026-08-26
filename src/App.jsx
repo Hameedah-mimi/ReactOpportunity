@@ -16,6 +16,7 @@ import Help from "./pages/Help";
 import FAQ from "./pages/FAQ";
 import Feedback from "./pages/Feedback";
 import "./Global.css";
+import Notifications from "./pages/dashboard/Notifications";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/help" element={<Help />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/feedback" element={<Feedback />} />
+        <Route path="/notifications" element={<Notifications />} />
       </Routes>
     </BrowserRouter>
   );

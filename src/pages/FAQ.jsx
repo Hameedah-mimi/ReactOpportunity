@@ -8,9 +8,9 @@ function FAQ() {
 
   const faqs = [
     {
-      question: "What is Student Opportunity Hub?",
+      question: "What is Opportuna?",
       answer:
-        "Student Opportunity Hub is a platform that helps students discover scholarships, internships, competitions, fellowships and other opportunities in one place.",
+        "Opportuna is a platform that helps students discover scholarships, internships, competitions, fellowships and other opportunities in one place.",
     },
     {
       question: "How can I find an opportunity?",
@@ -28,7 +28,7 @@ function FAQ() {
         "Yes. Once you have an account, you can save opportunities that you are interested in and return to them later from your profile.",
     },
     {
-      question: "Does Student Opportunity Hub provide the opportunities?",
+      question: "Does Opportuna provide the opportunities?",
       answer:
         "The platform helps students discover opportunities provided by different organizations. Application requirements and deadlines are determined by the organization offering the opportunity.",
     },
@@ -43,7 +43,7 @@ function FAQ() {
         "If you notice incorrect or outdated information, please contact us and provide the details so they can be reviewed.",
     },
     {
-      question: "How can I contact Student Opportunity Hub?",
+      question: "How can I contact Opportuna?",
       answer:
         "You can contact us through the Contact Us page. Send your message and our support team will review it.",
     },
@@ -65,8 +65,8 @@ function FAQ() {
           <h1>Frequently asked questions.</h1>
 
           <p>
-            Find answers to common questions about Student Opportunity Hub and
-            how to use the platform.
+            Find answers to common questions about Opportuna and how to use the
+            platform.
           </p>
         </section>
 
