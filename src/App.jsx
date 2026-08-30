@@ -20,31 +20,29 @@ import Notifications from "./pages/dashboard/Notifications";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* HOME */}
-        <Route path="/" element={<Home />} />
-        {/* AUTHENTICATION */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        {/* DASHBOARD */}
+    <Routes>
+      {/* HOME */}
+      <Route path="/" element={<Home />} />
+      {/* AUTHENTICATION */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      {/* DASHBOARD */}
 
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/opportunities" element={<Opportunities />} />
-        <Route path="/opportunities/:id" element={<OpportunityDetails />} />
-        <Route path="/saved" element={<SavedOpportunities />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/applications" element={<Applications />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/feedback" element={<Feedback />} />
-        <Route path="/notifications" element={<Notifications />} />
-      </Routes>
-    </BrowserRouter>
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/opportunities" element={<Opportunities />} />
+      <Route path="/opportunities/:id" element={<OpportunityDetails />} />
+      <Route path="/saved" element={<SavedOpportunities />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/applications" element={<Applications />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/help" element={<Help />} />
+      <Route path="/faq" element={<FAQ />} />
+      <Route path="/feedback" element={<Feedback />} />
+      <Route path="/notifications" element={<Notifications />} />
+    </Routes>
   );
 }
 

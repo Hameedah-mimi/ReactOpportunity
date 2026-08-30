@@ -1,11 +1,75 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import api from "../services/api";
 import "./Home.css";
 import logo from "../assets/logo.png";
 
 function Home() {
   const navigate = useNavigate();
+
+  const [opportunities, setOpportunities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  // Get opportunities from Django API
+  useEffect(() => {
+    const getOpportunities = async () => {
+      try {
+        const response = await api.get("opportunities/");
+
+        const data = response.data.results || response.data;
+
+        setOpportunities(data.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to load opportunities:", error);
+        setOpportunities([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getOpportunities();
+  }, []);
+
+  const formatCategory = (category) => {
+    if (!category) return "Opportunity";
+
+    return category
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  };
+
+  const formatFunding = (funding) => {
+    if (!funding) return "Not specified";
+
+    return funding
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  };
+
+  const formatDeadline = (deadline) => {
+    if (!deadline) return "Not specified";
+
+    return new Date(deadline).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  // Users must log in before viewing details
+  const handleViewOpportunity = (id) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    navigate(`/opportunities/${id}`);
+  };
 
   const categories = [
     {
@@ -18,40 +82,19 @@ function Home() {
       number: "02",
       title: "Internships",
       description:
-        "Discover internships that help you gain practical experience and develop your career.",
+        "Gain practical experience and develop valuable skills for your future career.",
     },
     {
       number: "03",
       title: "Competitions",
       description:
-        "Take part in challenges where you can showcase your skills and ideas.",
+        "Showcase your ideas, skills and creativity through exciting challenges.",
     },
     {
       number: "04",
       title: "Fellowships",
       description:
-        "Explore fellowships that connect you with learning, leadership and development opportunities.",
-    },
-  ];
-
-  const featuredOpportunities = [
-    {
-      title: "Student Innovation Challenge",
-      organization: "Innovation Hub",
-      category: "Competition",
-      deadline: "September 15, 2026",
-    },
-    {
-      title: "Technology Internship Program",
-      organization: "Tech Solutions",
-      category: "Internship",
-      deadline: "September 30, 2026",
-    },
-    {
-      title: "Future Leaders Scholarship",
-      organization: "Education Foundation",
-      category: "Scholarship",
-      deadline: "October 10, 2026",
+        "Connect with learning, leadership and professional development opportunities.",
     },
   ];
 
@@ -60,10 +103,10 @@ function Home() {
       <Navbar />
 
       <main className="home-content">
-        {/* HERO SECTION */}
+        {/* HERO */}
         <section className="hero-section">
           <div className="hero-content">
-            <span className="hero-label">Opportuna</span>
+            <span className="hero-label">OPPORTUNA</span>
 
             <h1>
               Discover opportunities.
@@ -73,8 +116,8 @@ function Home() {
 
             <p>
               Find scholarships, internships, competitions, fellowships and
-              other opportunities designed to help students grow, learn and
-              succeed.
+              other opportunities designed to help students learn, grow and move
+              forward.
             </p>
 
             <div className="hero-buttons">
@@ -86,12 +129,14 @@ function Home() {
                 <span>→</span>
               </button>
 
-              <button
-                className="secondary-button"
-                onClick={() => navigate("/register")}
-              >
-                Create an Account
-              </button>
+              {!user && (
+                <button
+                  className="secondary-button"
+                  onClick={() => navigate("/register")}
+                >
+                  Create an Account
+                </button>
+              )}
             </div>
 
             <div className="hero-trust">
@@ -113,7 +158,6 @@ function Home() {
 
               <div>
                 <strong>Scholarships</strong>
-
                 <small>Education funding</small>
               </div>
             </div>
@@ -123,13 +167,13 @@ function Home() {
 
               <div>
                 <strong>Internships</strong>
-
                 <small>Career experience</small>
               </div>
             </div>
           </div>
         </section>
 
+        {/* CATEGORIES */}
         <section className="categories-section">
           <div className="section-heading">
             <span>EXPLORE</span>
@@ -166,14 +210,17 @@ function Home() {
           </div>
         </section>
 
+        {/* API OPPORTUNITIES */}
         <section className="featured-section">
           <div className="featured-heading">
             <div>
-              <span>FEATURED</span>
+              <span>LATEST OPPORTUNITIES</span>
 
-              <h2>Opportunities worth exploring.</h2>
+              <h2>Find something worth pursuing.</h2>
 
-              <p>Start with some of the opportunities available to students.</p>
+              <p>
+                Explore some of the latest opportunities available on Opportuna.
+              </p>
             </div>
 
             <button
@@ -185,70 +232,151 @@ function Home() {
             </button>
           </div>
 
-          <div className="opportunities-grid">
-            {featuredOpportunities.map((opportunity, index) => (
-              <div className="opportunity-card" key={index}>
-                <div className="opportunity-top">
-                  <span className="opportunity-category">
-                    {opportunity.category}
-                  </span>
+          {loading && (
+            <div className="home-opportunity-message">
+              <h3>Loading opportunities...</h3>
+              <p>Finding the latest opportunities for you.</p>
+            </div>
+          )}
+
+          {!loading && opportunities.length === 0 && (
+            <div className="home-opportunity-message">
+              <h3>No opportunities available</h3>
+              <p>New opportunities will appear here when they are added.</p>
+            </div>
+          )}
+
+          {!loading && opportunities.length > 0 && (
+            <div className="opportunities-grid">
+              {opportunities.map((opportunity) => (
+                <article className="opportunity-card" key={opportunity.id}>
+                  <div className="opportunity-top">
+                    <span className="opportunity-category">
+                      {formatCategory(opportunity.category)}
+                    </span>
+
+                    <span className="home-api-badge">Available</span>
+                  </div>
+
+                  <h3>{opportunity.title}</h3>
+
+                  <p className="organization">
+                    {opportunity.organization_name || "Organization"}
+                  </p>
+
+                  <p className="home-opportunity-description">
+                    {opportunity.description
+                      ? opportunity.description.length > 120
+                        ? `${opportunity.description.substring(0, 120)}...`
+                        : opportunity.description
+                      : "Explore this opportunity to learn more."}
+                  </p>
+
+                  <div className="opportunity-divider"></div>
+
+                  <div className="home-opportunity-meta">
+                    <div>
+                      <span>DEADLINE</span>
+                      <strong>{formatDeadline(opportunity.deadline)}</strong>
+                    </div>
+
+                    <div>
+                      <span>FUNDING</span>
+                      <strong>{formatFunding(opportunity.funding_type)}</strong>
+                    </div>
+                  </div>
 
                   <button
-                    className="save-button"
-                    type="button"
-                    aria-label="Save opportunity"
+                    className="details-button"
+                    onClick={() => handleViewOpportunity(opportunity.id)}
                   >
-                    Save
+                    {user ? "View Opportunity" : "Sign in to view"}
+                    <span>→</span>
                   </button>
-                </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
 
-                <h3>{opportunity.title}</h3>
+        {/* HOW IT WORKS */}
+        <section className="how-section">
+          <div className="section-heading">
+            <span>HOW IT WORKS</span>
 
-                <p className="organization">{opportunity.organization}</p>
+            <h2>From discovery to opportunity.</h2>
 
-                <div className="opportunity-divider"></div>
+            <p>
+              Opportuna makes it simple to discover and keep track of
+              opportunities that matter to you.
+            </p>
+          </div>
 
-                <div className="deadline">
-                  <span>APPLICATION DEADLINE</span>
+          <div className="how-grid">
+            <div className="how-card">
+              <span>01</span>
 
-                  <strong>{opportunity.deadline}</strong>
-                </div>
+              <h3>Discover</h3>
 
-                <button
-                  className="details-button"
-                  onClick={() => navigate("/opportunities")}
-                >
-                  View Opportunity
-                  <span>→</span>
-                </button>
-              </div>
-            ))}
+              <p>
+                Browse scholarships, internships, competitions, fellowships and
+                more.
+              </p>
+            </div>
+
+            <div className="how-card">
+              <span>02</span>
+
+              <h3>Save</h3>
+
+              <p>
+                Create an account and save opportunities you want to come back
+                to later.
+              </p>
+            </div>
+
+            <div className="how-card">
+              <span>03</span>
+
+              <h3>Apply</h3>
+
+              <p>
+                Review the requirements and apply directly through the
+                opportunity provider.
+              </p>
+            </div>
           </div>
         </section>
 
         {/* CTA */}
-        <section className="cta-section">
-          <div className="cta-logo">
-            <img src={logo} alt="Opportuna" className="cta-logo-image" />
-          </div>
+        {!user && (
+          <section className="cta-section">
+            <div className="cta-logo">
+              <img src={logo} alt="Opportuna" className="cta-logo-image" />
+            </div>
 
-          <div className="cta-content">
-            <span>YOUR NEXT OPPORTUNITY</span>
+            <div className="cta-content">
+              <span>YOUR NEXT OPPORTUNITY</span>
 
-            <h2>Your future starts with one opportunity.</h2>
+              <h2>Your future starts with one opportunity.</h2>
 
-            <p>
-              Create your account and start discovering opportunities that match
-              your goals.
-            </p>
-          </div>
+              <p>
+                Create your account and start discovering opportunities that
+                match your goals.
+              </p>
+            </div>
 
-          <button className="cta-button" onClick={() => navigate("/register")}>
-            Get Started
-            <span>→</span>
-          </button>
-        </section>
+            <button
+              className="cta-button"
+              onClick={() => navigate("/register")}
+            >
+              Get Started
+              <span>→</span>
+            </button>
+          </section>
+        )}
       </main>
+
       <Footer />
     </div>
   );

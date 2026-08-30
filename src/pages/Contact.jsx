@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import api from "../services/api";
 import "./Contact.css";
 
 function Contact() {
@@ -11,24 +12,49 @@ function Contact() {
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    setSuccess("");
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert("Your message has been submitted.");
+    setLoading(true);
+    setSuccess("");
+    setError("");
 
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+    try {
+      await api.post("contact/", formData);
+
+      setSuccess("Your message has been sent successfully.");
+
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (err) {
+      console.error("Contact form error:", err);
+
+      if (err.response?.data) {
+        setError("Please check your information and try again.");
+      } else {
+        setError("Unable to send your message. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,7 +63,6 @@ function Contact() {
 
       <main>
         {/* HERO */}
-
         <section className="contact-hero">
           <div>
             <span className="contact-label">GET IN TOUCH</span>
@@ -52,11 +77,9 @@ function Contact() {
         </section>
 
         {/* CONTACT CONTENT */}
-
         <section className="contact-section">
           <div className="contact-grid">
             {/* CONTACT INFORMATION */}
-
             <div className="contact-info">
               <span className="contact-label">CONTACT INFORMATION</span>
 
@@ -96,7 +119,6 @@ function Contact() {
             </div>
 
             {/* FORM */}
-
             <div className="contact-form-card">
               <h2>Send us a message</h2>
 
@@ -156,8 +178,40 @@ function Contact() {
                   />
                 </div>
 
-                <button type="submit" className="contact-submit">
-                  Send Message
+                {/* SUCCESS MESSAGE */}
+                {success && (
+                  <p
+                    style={{
+                      margin: "0",
+                      color: "#16a34a",
+                      fontSize: "13px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {success}
+                  </p>
+                )}
+
+                {/* ERROR MESSAGE */}
+                {error && (
+                  <p
+                    style={{
+                      margin: "0",
+                      color: "#dc2626",
+                      fontSize: "13px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  className="contact-submit"
+                  disabled={loading}
+                >
+                  {loading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </div>

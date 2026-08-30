@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 import "./Navbar.css";
 import logo from "../assets/logo.png";
 
 function Navbar() {
   const navigate = useNavigate();
+  const { darkMode, toggleTheme } = useTheme();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isLoggedIn = localStorage.getItem("access") !== null;
@@ -27,6 +30,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         {/* LOGO */}
+
         <Link
           to={isLoggedIn ? "/dashboard" : "/"}
           className="navbar-logo"
@@ -34,6 +38,8 @@ function Navbar() {
         >
           <img src={logo} alt="Opportuna" />
         </Link>
+
+        {/* MOBILE MENU */}
 
         <button
           className="menu-button"
@@ -46,21 +52,17 @@ function Navbar() {
         </button>
 
         {/* NAVIGATION */}
-        <div className="navbar-links">
-          {/* DESKTOP / MOBILE DROPDOWN LINKS */}
-          <div className={`main-links ${menuOpen ? "open" : ""}`}>
+
+        <div className={`navbar-links ${menuOpen ? "open" : ""}`}>
+          <div className="main-links">
             {!isLoggedIn ? (
               <>
                 <Link to="/" className="nav-link" onClick={closeMenu}>
                   Home
                 </Link>
 
-                <Link
-                  to="/opportunities"
-                  className="nav-link"
-                  onClick={closeMenu}
-                >
-                  Opportunities
+                <Link to="/contact" className="nav-link" onClick={closeMenu}>
+                  Contact
                 </Link>
               </>
             ) : (
@@ -81,26 +83,41 @@ function Navbar() {
                   Profile
                 </Link>
 
-                <Link to="/contact" className="nav-link" onClick={closeMenu}>
-                  Contact
+                <Link
+                  to="/notifications"
+                  className="nav-link"
+                  onClick={closeMenu}
+                >
+                  Notifications
                 </Link>
 
-                <Link to="/notifications" className="nav-link">
-                  Notifications
+                <Link to="/contact" className="nav-link" onClick={closeMenu}>
+                  Contact
                 </Link>
               </>
             )}
           </div>
 
-          {/* AUTH BUTTONS */}
           <div className="auth-links">
+            {/* THEME SWITCH */}
+
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              <span>{darkMode ? "☀" : "☾"}</span>
+            </button>
+
             {!isLoggedIn ? (
               <>
-                <Link to="/login" className="login-btn">
+                <Link to="/login" className="login-btn" onClick={closeMenu}>
                   Login
                 </Link>
 
-                <Link to="/register" className="signup-btn">
+                <Link to="/register" className="signup-btn" onClick={closeMenu}>
                   Sign Up
                 </Link>
               </>

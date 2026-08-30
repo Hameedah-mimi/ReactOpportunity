@@ -1,54 +1,89 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import api from "../../services/api";
 import "./Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
 
-  // Get logged-in user
+  const [savedOpportunities, setSavedOpportunities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Get current user
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
-  // Get username
   const username = user?.username || "Student";
 
-  const recommendedOpportunities = [
-    {
-      id: 1,
-      title: "Future Leaders Scholarship",
-      organization: "Education Foundation",
-      category: "Scholarship",
-      deadline: "October 10, 2026",
-    },
-    {
-      id: 2,
-      title: "Technology Internship Program",
-      organization: "Tech Solutions",
-      category: "Internship",
-      deadline: "September 30, 2026",
-    },
-    {
-      id: 3,
-      title: "Student Innovation Challenge",
-      organization: "Innovation Hub",
-      category: "Competition",
-      deadline: "September 15, 2026",
-    },
-  ];
+  // Same key used in Opportunities.jsx
+  const userKey = user ? user.id || user.email || user.username : "guest";
 
-  const recentApplications = [
-    {
-      title: "Technology Internship Program",
-      organization: "Tech Solutions",
-      status: "Pending",
-    },
-    {
-      title: "Future Leaders Scholarship",
-      organization: "Education Foundation",
-      status: "Under Review",
-    },
-  ];
+  const savedKey = `savedOpportunities_${userKey}`;
+
+  useEffect(() => {
+    getSavedOpportunities();
+  }, [savedKey]);
+
+  const getSavedOpportunities = async () => {
+    try {
+      setLoading(true);
+
+      // Get saved IDs from localStorage
+      const savedIds = JSON.parse(localStorage.getItem(savedKey) || "[]");
+
+      if (savedIds.length === 0) {
+        setSavedOpportunities([]);
+        return;
+      }
+
+      // Get opportunities from Django
+      const response = await api.get("opportunities/");
+
+      const data = response.data.results || response.data || [];
+
+      // Match saved IDs with API opportunities
+      const saved = data.filter((opportunity) =>
+        savedIds.includes(opportunity.id),
+      );
+
+      setSavedOpportunities(saved);
+    } catch (error) {
+      console.error("Failed to load saved opportunities:", error);
+
+      setSavedOpportunities([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Get upcoming deadlines
+  const upcomingDeadlines = savedOpportunities
+    .filter((opportunity) => {
+      if (!opportunity.deadline) return false;
+
+      return new Date(opportunity.deadline) >= new Date();
+    })
+    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+  const formatCategory = (category) => {
+    if (!category) return "Opportunity";
+
+    return category
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  };
+
+  const formatDate = (date) => {
+    if (!date) return "Not specified";
+
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
     <div className="dashboard-page">
@@ -63,13 +98,13 @@ function Dashboard() {
             <h1>Welcome back, {username}</h1>
 
             <p>
-              Keep track of your opportunities, applications, and important
-              deadlines.
+              Keep track of the opportunities you have saved and stay updated
+              with important deadlines.
             </p>
           </div>
 
           <button
-            className="explore-button"
+            className="dashboard-primary-button"
             onClick={() => navigate("/opportunities")}
           >
             Explore Opportunities
@@ -79,71 +114,86 @@ function Dashboard() {
         {/* STATISTICS */}
         <section className="dashboard-stats">
           <div className="stat-card">
-            <span className="stat-title">Saved Opportunities</span>
+            <span>Saved Opportunities</span>
 
-            <strong>8</strong>
+            <strong>{loading ? "..." : savedOpportunities.length}</strong>
 
-            <p>Opportunities saved</p>
+            <p>Opportunities you saved</p>
           </div>
 
           <div className="stat-card">
-            <span className="stat-title">Applications</span>
+            <span>Upcoming Deadlines</span>
 
-            <strong>4</strong>
+            <strong>{loading ? "..." : upcomingDeadlines.length}</strong>
+
+            <p>Saved opportunities with upcoming deadlines</p>
+          </div>
+
+          <div className="stat-card">
+            <span>Applications</span>
+
+            <strong>0</strong>
 
             <p>Applications submitted</p>
           </div>
-
-          <div className="stat-card">
-            <span className="stat-title">Upcoming Deadlines</span>
-
-            <strong>3</strong>
-
-            <p>Deadlines approaching</p>
-          </div>
-
-          <div className="stat-card">
-            <span className="stat-title">Recommended</span>
-
-            <strong>6</strong>
-
-            <p>Opportunities for you</p>
-          </div>
         </section>
 
-        {/* MAIN DASHBOARD GRID */}
-        <section className="dashboard-grid">
-          {/* RECOMMENDED */}
-          <div className="dashboard-section">
-            <div className="section-top">
-              <div>
-                <span className="dashboard-label">FOR YOU</span>
+        {/* SAVED OPPORTUNITIES */}
+        <section className="dashboard-section">
+          <div className="section-top">
+            <div>
+              <span className="dashboard-label">MY SAVED</span>
 
-                <h2>Recommended Opportunities</h2>
-              </div>
-
-              <button onClick={() => navigate("/opportunities")}>
-                View All
-              </button>
+              <h2>Saved Opportunities</h2>
             </div>
 
-            <div className="recommended-list">
-              {recommendedOpportunities.map((opportunity) => (
-                <div className="recommended-card" key={opportunity.id}>
-                  <div className="recommended-info">
-                    <span className="opportunity-category">
-                      {opportunity.category}
+            <button onClick={() => navigate("/opportunities")}>
+              Browse All
+            </button>
+          </div>
+
+          {loading && (
+            <div className="dashboard-empty">
+              <p>Loading your saved opportunities...</p>
+            </div>
+          )}
+
+          {!loading && savedOpportunities.length === 0 && (
+            <div className="dashboard-empty">
+              <h3>No saved opportunities yet</h3>
+
+              <p>
+                Save opportunities you are interested in and they will appear
+                here.
+              </p>
+
+              <button
+                className="dashboard-primary-button"
+                onClick={() => navigate("/opportunities")}
+              >
+                Find Opportunities
+              </button>
+            </div>
+          )}
+
+          {!loading && savedOpportunities.length > 0 && (
+            <div className="saved-list">
+              {savedOpportunities.map((opportunity) => (
+                <div className="saved-card" key={opportunity.id}>
+                  <div className="saved-card-info">
+                    <span className="saved-category">
+                      {formatCategory(opportunity.category)}
                     </span>
 
                     <h3>{opportunity.title}</h3>
 
-                    <p>{opportunity.organization}</p>
+                    <p>{opportunity.organization_name || "Organization"}</p>
                   </div>
 
-                  <div className="recommended-right">
+                  <div className="saved-card-right">
                     <span>Deadline</span>
 
-                    <strong>{opportunity.deadline}</strong>
+                    <strong>{formatDate(opportunity.deadline)}</strong>
 
                     <button
                       onClick={() =>
@@ -156,50 +206,59 @@ function Dashboard() {
                 </div>
               ))}
             </div>
+          )}
+        </section>
+
+        {/* UPCOMING DEADLINES */}
+        <section className="dashboard-section">
+          <div className="section-top">
+            <div>
+              <span className="dashboard-label">DON'T MISS OUT</span>
+
+              <h2>Upcoming Deadlines</h2>
+            </div>
           </div>
 
-          {/* APPLICATIONS */}
-          <div className="dashboard-section applications-section">
-            <div className="section-top">
-              <div>
-                <span className="dashboard-label">ACTIVITY</span>
+          {upcomingDeadlines.length === 0 ? (
+            <div className="dashboard-empty">
+              <h3>No upcoming deadlines</h3>
 
-                <h2>Recent Applications</h2>
-              </div>
-
-              <button onClick={() => navigate("/applications")}>
-                View All
-              </button>
+              <p>
+                Save opportunities with upcoming deadlines to keep track of them
+                here.
+              </p>
             </div>
-
-            <div className="applications-list">
-              {recentApplications.map((application, index) => (
-                <div className="application-card" key={index}>
+          ) : (
+            <div className="deadline-list">
+              {upcomingDeadlines.slice(0, 5).map((opportunity) => (
+                <div className="deadline-card" key={opportunity.id}>
                   <div>
-                    <h3>{application.title}</h3>
+                    <h3>{opportunity.title}</h3>
 
-                    <p>{application.organization}</p>
+                    <p>{opportunity.organization_name || "Organization"}</p>
                   </div>
 
-                  <span className="application-status">
-                    {application.status}
-                  </span>
+                  <div className="deadline-date">
+                    <span>Deadline</span>
+
+                    <strong>{formatDate(opportunity.deadline)}</strong>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
+          )}
         </section>
 
-        {/* DEADLINE SECTION */}
-        <section className="deadline-section">
-          <div className="deadline-content">
-            <span className="dashboard-label">DON'T MISS OUT</span>
+        {/* BOTTOM */}
+        <section className="dashboard-bottom">
+          <div>
+            <span className="dashboard-label">KEEP EXPLORING</span>
 
-            <h2>Keep an eye on your deadlines</h2>
+            <h2>Find your next opportunity.</h2>
 
             <p>
-              Stay organized and make sure you submit your applications before
-              the deadlines.
+              Discover scholarships, internships, competitions, fellowships and
+              more.
             </p>
           </div>
 

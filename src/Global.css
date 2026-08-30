@@ -28,3 +28,308 @@ textarea,
 select {
   font-family: inherit;
 }
+
+/* =========================================
+   GLOBAL THEME
+========================================= */
+
+:root {
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-secondary: #eef2ff;
+  --text: #172033;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --input-border: #dbe2ea;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+}
+
+body.dark-mode {
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-secondary: #1e293b;
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --input-border: #475569;
+  --primary: #6366f1;
+  --primary-hover: #818cf8;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* =========================================
+   GLOBAL ELEMENTS
+========================================= */
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   DARK MODE - COMMON ELEMENTS
+========================================= */
+
+.dark-mode .opportunities-page,
+.dark-mode .details-page,
+.dark-mode .dashboard-page,
+.dark-mode .contact-page,
+.dark-mode .home-page {
+  background: var(--background);
+  color: var(--text);
+}
+
+/* Cards */
+
+.dark-mode .opportunity-item,
+.dark-mode .details-card,
+.dark-mode .contact-form-card,
+.dark-mode .stat-card,
+.dark-mode .recommended-card,
+.dark-mode .application-card,
+.dark-mode .category-card,
+.dark-mode .opportunity-card,
+.dark-mode .how-card,
+.dark-mode .no-results,
+.dark-mode .home-opportunity-message {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* Secondary backgrounds */
+
+.dark-mode .opportunities-header,
+.dark-mode .contact-hero,
+.dark-mode .application-section,
+.dark-mode .how-section {
+  background: var(--surface-secondary);
+}
+
+/* Text */
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode strong {
+  color: var(--text);
+}
+
+.dark-mode p,
+.dark-mode span,
+.dark-mode .opportunity-description,
+.dark-mode .home-opportunity-description {
+  color: var(--text-secondary);
+}
+
+/* Inputs */
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--input-border);
+}
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Borders */
+
+.dark-mode .details-header,
+.dark-mode .details-info,
+.dark-mode .info-item,
+.dark-mode .opportunity-meta,
+.dark-mode .opportunity-divider {
+  border-color: var(--border);
+}
+
+:root {
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-secondary: #eef2ff;
+  --text: #172033;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+}
+
+[data-theme="dark"] {
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-secondary: #172554;
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --primary-light: #312e81;
+}
+
+:root {
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-secondary: #eef2ff;
+
+  --text: #172033;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  --border: #e2e8f0;
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+}
+
+[data-theme="dark"] {
+  --background: #0f172a;
+  --surface: #1e293b;
+  --surface-secondary: #172554;
+
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border: #334155;
+
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --primary-light: #312e81;
+}
+
+/* Make the whole application follow the theme */
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  background: var(--background);
+  color: var(--text);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+
+  --text: #172033;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  --border: #e2e8f0;
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --primary-soft: #a5b4fc;
+  --primary-glow: rgba(79, 70, 229, 0.12);
+
+  --success: #10b981;
+  --success-light: #ecfdf5;
+
+  --shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+
+  --cta-background: #172033;
+  --cta-text: #ffffff;
+  --cta-secondary: #cbd5e1;
+}
+
+.dark-mode {
+  --background: #0b1120;
+  --surface: #111827;
+  --surface-alt: #151e2e;
+
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --border: #263244;
+
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --primary-light: #1e1b4b;
+  --primary-soft: #a5b4fc;
+  --primary-glow: rgba(129, 140, 248, 0.14);
+
+  --success: #34d399;
+  --success-light: #052e24;
+
+  --shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+
+  --cta-background: #070b14;
+  --cta-text: #f8fafc;
+  --cta-secondary: #94a3b8;
+}
+:root {
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --text: #172033;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+}
+
+.dark-mode {
+  --background: #0b1020;
+  --surface: #111827;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: #273449;
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --primary-light: #1e2542;
+}

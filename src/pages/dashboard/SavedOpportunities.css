@@ -2,8 +2,8 @@
   width: 100%;
   min-height: 100vh;
 
-  background: #f8fafc;
-  color: #172033;
+  background: var(--background);
+  color: var(--text);
 
   overflow-x: hidden;
 }
@@ -17,7 +17,9 @@
   padding: 55px 24px 80px;
 }
 
-/* HEADER */
+/* ================================
+   HEADER
+================================ */
 
 .saved-header {
   display: flex;
@@ -31,27 +33,42 @@
 }
 
 .saved-label {
-  color: #4f46e5;
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: var(--primary);
 
   font-size: 11px;
   font-weight: 700;
 
   letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .saved-header h1 {
   margin: 12px 0 8px;
 
+  color: var(--text);
+
   font-size: clamp(30px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
 }
 
 .saved-header p {
   margin: 0;
 
-  color: #64748b;
+  color: var(--text-secondary);
 
+  font-size: 14px;
   line-height: 1.6;
 }
+
+/* ================================
+   HEADER BUTTON
+================================ */
 
 .saved-header button {
   flex-shrink: 0;
@@ -61,30 +78,43 @@
   border: none;
   border-radius: 8px;
 
-  background: #4f46e5;
-  color: white;
+  background: var(--primary);
+  color: #ffffff;
 
   font-size: 13px;
   font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .saved-header button:hover {
-  background: #4338ca;
+  background: var(--primary-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.18);
 }
 
-/* COUNT */
+/* ================================
+   COUNT
+================================ */
 
 .saved-count {
   margin-bottom: 18px;
 
-  color: #64748b;
+  color: var(--text-secondary);
 
   font-size: 14px;
 }
 
-/* LIST */
+/* ================================
+   LIST
+================================ */
 
 .saved-list {
   display: flex;
@@ -94,7 +124,9 @@
   gap: 15px;
 }
 
-/* CARD */
+/* ================================
+   SAVED CARD
+================================ */
 
 .saved-card {
   display: flex;
@@ -106,44 +138,81 @@
 
   padding: 25px;
 
-  background: white;
+  background: var(--surface);
 
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
   border-radius: 12px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.saved-card:hover {
+  border-color: var(--primary);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 .saved-card-main {
   min-width: 0;
 }
 
+/* ================================
+   CATEGORY
+================================ */
+
 .saved-category {
   display: inline-block;
 
   padding: 5px 10px;
 
+  border: 1px solid var(--border);
+
   border-radius: 15px;
 
-  background: #eef2ff;
-  color: #4f46e5;
+  background: var(--primary-light);
+  color: var(--primary);
 
   font-size: 10px;
   font-weight: 600;
+
+  letter-spacing: 0.2px;
 }
+
+/* ================================
+   TITLE
+================================ */
 
 .saved-card h2 {
   margin: 12px 0 5px;
 
+  color: var(--text);
+
   font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
 }
+
+/* ================================
+   ORGANIZATION
+================================ */
 
 .saved-organization {
   margin: 0 0 18px;
 
-  color: #4f46e5;
+  color: var(--primary);
 
   font-size: 13px;
   font-weight: 600;
 }
+
+/* ================================
+   DETAILS
+================================ */
 
 .saved-details {
   display: flex;
@@ -152,19 +221,21 @@
 
   gap: 20px;
 
-  color: #64748b;
+  color: var(--text-secondary);
 
   font-size: 12px;
 }
 
-/* ACTIONS */
+/* ================================
+   ACTIONS
+================================ */
 
 .saved-actions {
   display: flex;
 
   align-items: center;
 
-  gap: 10px;
+  gap: 20px;
 
   flex-shrink: 0;
 }
@@ -179,28 +250,118 @@
   font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.view-saved {
-  border: none;
+/* ================================
+   VIEW BUTTON
+================================ */
 
-  background: #4f46e5;
-  color: white;
+.view-saved {
+  border: 1px solid var(--primary);
+
+  background: var(--primary);
+  color: #ffffff;
 }
 
 .view-saved:hover {
-  background: #4338ca;
+  background: var(--primary-hover);
+
+  border-color: var(--primary-hover);
+
+  transform: translateY(-1px);
 }
+
+/* ================================
+   REMOVE BUTTON
+================================ */
 
 .remove-saved {
-  border: 1px solid #dbe2ea;
+  border: 1px solid var(--border);
 
-  background: white;
-
-  color: #64748b;
+  background: var(--surface);
+  color: var(--text-secondary);
 }
 
-/* TABLET */
+.remove-saved:hover {
+  border-color: var(--primary);
+
+  background: var(--primary-light);
+
+  color: var(--primary);
+}
+
+/* ================================
+   DARK MODE REFINEMENT
+================================ */
+
+.dark-mode .saved-page {
+  background: var(--background);
+  color: var(--text);
+}
+
+.dark-mode .saved-card {
+  background: var(--surface);
+
+  border-color: var(--border);
+
+  box-shadow: none;
+}
+
+.dark-mode .saved-card:hover {
+  border-color: rgba(129, 140, 248, 0.55);
+
+  background: var(--surface);
+
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+}
+
+.dark-mode .saved-category {
+  background: rgba(99, 102, 241, 0.14);
+
+  border-color: rgba(129, 140, 248, 0.18);
+
+  color: #a5b4fc;
+}
+
+.dark-mode .saved-organization {
+  color: #a5b4fc;
+}
+
+.dark-mode .view-saved {
+  background: var(--primary);
+
+  border-color: var(--primary);
+}
+
+.dark-mode .view-saved:hover {
+  background: var(--primary-hover);
+}
+
+.dark-mode .remove-saved {
+  background: var(--surface);
+
+  border-color: var(--border);
+
+  color: var(--text-secondary);
+}
+
+.dark-mode .remove-saved:hover {
+  background: rgba(99, 102, 241, 0.12);
+
+  border-color: rgba(129, 140, 248, 0.5);
+
+  color: #a5b4fc;
+}
+
+/* ================================
+   TABLET
+================================ */
 
 @media (max-width: 800px) {
   .saved-header {
@@ -229,7 +390,9 @@
   }
 }
 
-/* MOBILE */
+/* ================================
+   MOBILE
+================================ */
 
 @media (max-width: 500px) {
   .saved-container {
