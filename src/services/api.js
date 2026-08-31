@@ -1,13 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:4576/api/",
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add access token to every request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access");

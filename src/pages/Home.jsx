@@ -123,7 +123,7 @@ function Home() {
             <div className="hero-buttons">
               <button
                 className="primary-button"
-                onClick={() => navigate("/opportunities")}
+                onClick={() => navigate("/login")}
               >
                 Explore Opportunities
                 <span>→</span>
@@ -191,7 +191,7 @@ function Home() {
               <div
                 className="category-card"
                 key={category.number}
-                onClick={() => navigate("/opportunities")}
+                onClick={() => navigate("/login")}
               >
                 <span className="category-number">{category.number}</span>
 
@@ -225,7 +225,7 @@ function Home() {
 
             <button
               className="view-all-button"
-              onClick={() => navigate("/opportunities")}
+              onClick={() => navigate("/login")}
             >
               View all opportunities
               <span>→</span>
