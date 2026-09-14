@@ -1,11 +1,25 @@
+/* ================================
+   NAVBAR
+================================ */
+
 .navbar {
   width: 100%;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
+
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
-  z-index: 1000;
+  left: 0;
+
+  z-index: 9999;
+
+  box-sizing: border-box;
 }
+
+/* ================================
+   NAVBAR CONTAINER
+================================ */
 
 .navbar-container {
   width: 100%;
@@ -174,6 +188,36 @@
 }
 
 /* ================================
+   THEME TOGGLE
+================================ */
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  background: transparent;
+  color: var(--text);
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  transition: 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ================================
    MOBILE MENU BUTTON
 ================================ */
 
@@ -208,36 +252,6 @@
   background: var(--text);
 
   border-radius: 2px;
-}
-
-/* ================================
-   THEME TOGGLE
-================================ */
-
-.theme-toggle {
-  width: 40px;
-  height: 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid var(--border);
-  border-radius: 50%;
-
-  background: transparent;
-  color: var(--text);
-
-  cursor: pointer;
-
-  font-size: 18px;
-
-  transition: 0.2s ease;
-}
-
-.theme-toggle:hover {
-  background: var(--primary-light);
-  color: var(--primary);
 }
 
 /* ================================
@@ -276,8 +290,6 @@
     position: relative;
   }
 
-  /* Keep logo prominent */
-
   .navbar-logo img {
     width: 190px;
     height: 70px;
@@ -292,9 +304,7 @@
     flex-shrink: 0;
   }
 
-  /* ================================
-     MOBILE NAVIGATION
-  ================================ */
+  /* MOBILE NAVIGATION */
 
   .navbar-links {
     position: absolute;
@@ -312,7 +322,9 @@
 
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 
-    display: flex;
+    display: none;
+
+    flex-direction: column;
     align-items: stretch;
 
     gap: 15px;
@@ -320,8 +332,14 @@
     box-sizing: border-box;
   }
 
+  /* Show menu when open */
+
+  .navbar-links.open {
+    display: flex;
+  }
+
   .main-links {
-    display: none;
+    display: flex;
 
     flex-direction: column;
     align-items: stretch;
@@ -329,10 +347,6 @@
     width: 100%;
 
     gap: 0;
-  }
-
-  .main-links.open {
-    display: flex;
   }
 
   .nav-link {
@@ -345,6 +359,8 @@
     color: var(--text-secondary);
 
     font-size: 15px;
+
+    box-sizing: border-box;
   }
 
   .nav-link:hover {
@@ -355,6 +371,7 @@
     display: flex;
 
     align-items: center;
+    justify-content: flex-start;
 
     gap: 8px;
 

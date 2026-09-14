@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import api from "../services/api";
 import "./Home.css";
 import logo from "../assets/logo.png";
+import Login from "./auth/Login";
 
 function Home() {
   const navigate = useNavigate();
@@ -288,7 +289,7 @@ function Home() {
 
                   <button
                     className="details-button"
-                    onClick={() => handleViewOpportunity(opportunity.id)}
+                    onClick={() => navigate("/login")}
                   >
                     {user ? "View Opportunity" : "Sign in to view"}
                     <span>→</span>

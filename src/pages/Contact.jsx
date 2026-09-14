@@ -70,8 +70,8 @@ function Contact() {
             <h1>We'd love to hear from you.</h1>
 
             <p>
-              Have a question, suggestion, or need help with Student Opportunity
-              Hub? Send us a message and we'll get back to you.
+              Have a question, suggestion, or need help with Opportuna? Send us
+              a message and we'll get back to you.
             </p>
           </div>
         </section>
@@ -104,7 +104,7 @@ function Contact() {
 
                 <div>
                   <span>Support</span>
-                  <strong>Student Support Team</strong>
+                  <strong>Opportuna Support Team</strong>
                 </div>
               </div>
 

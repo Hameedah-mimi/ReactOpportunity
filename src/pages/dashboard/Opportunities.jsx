@@ -31,21 +31,17 @@ function Opportunities() {
     setSavedIds(saved);
   }, [savedKey]);
 
-  // Load opportunities from Django
+  // Load opportunities only once
   useEffect(() => {
     getOpportunities();
-  }, [search, category]);
+  }, []);
 
+  // Get opportunities from Django
   const getOpportunities = async () => {
     try {
       setLoading(true);
 
-      const response = await api.get("opportunities/", {
-        params: {
-          search: search || undefined,
-          category: category || undefined,
-        },
-      });
+      const response = await api.get("opportunities/");
 
       const data = response.data.results || response.data;
 
@@ -58,6 +54,19 @@ function Opportunities() {
     }
   };
 
+  // FRONTEND SEARCH + CATEGORY FILTER
+  const filteredOpportunities = opportunities.filter((opportunity) => {
+    const matchesSearch =
+      !search ||
+      opportunity.title?.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory =
+      !category ||
+      opportunity.category?.toLowerCase() === category.toLowerCase();
+
+    return matchesSearch && matchesCategory;
+  });
+
   // Save or remove an opportunity
   const toggleSave = (opportunityId) => {
     if (!user) {
@@ -69,10 +78,8 @@ function Opportunities() {
     let updatedSavedIds;
 
     if (savedIds.includes(opportunityId)) {
-      // Remove
       updatedSavedIds = savedIds.filter((id) => id !== opportunityId);
     } else {
-      // Save
       updatedSavedIds = [...savedIds, opportunityId];
     }
 
@@ -124,7 +131,6 @@ function Opportunities() {
 
       <main className="opportunities-content">
         {/* SEARCH AND FILTER */}
-
         <div className="search-filter">
           <div className="search-box">
             <input
@@ -142,29 +148,18 @@ function Opportunities() {
             >
               <option value="">All Categories</option>
 
-              <option value="scholarship">Scholarships</option>
+              <option value="competition">Competitions</option>
 
               <option value="internship">Internships</option>
 
-              <option value="competition">Competitions</option>
+              <option value="scholarship">Scholarships</option>
 
               <option value="fellowship">Fellowships</option>
-
-              <option value="grant">Grants</option>
-
-              <option value="hackathon">Hackathons</option>
-
-              <option value="leadership">Leadership Programs</option>
-
-              <option value="workshop">Workshops</option>
-
-              <option value="conference">Conferences</option>
             </select>
           </div>
         </div>
 
         {/* RESULTS HEADER */}
-
         <div className="results-header">
           <div>
             <span className="section-label">OPPORTUNITIES</span>
@@ -173,12 +168,11 @@ function Opportunities() {
           </div>
 
           <span className="results-count">
-            {opportunities.length} opportunities
+            {filteredOpportunities.length} opportunities
           </span>
         </div>
 
         {/* LOADING */}
-
         {loading && (
           <div className="no-results">
             <div className="loading-spinner"></div>
@@ -190,8 +184,7 @@ function Opportunities() {
         )}
 
         {/* NO RESULTS */}
-
-        {!loading && opportunities.length === 0 && (
+        {!loading && filteredOpportunities.length === 0 && (
           <div className="no-results">
             <h3>No opportunities found</h3>
 
@@ -200,16 +193,14 @@ function Opportunities() {
         )}
 
         {/* OPPORTUNITIES */}
-
-        {!loading && opportunities.length > 0 && (
+        {!loading && filteredOpportunities.length > 0 && (
           <div className="opportunities-list">
-            {opportunities.map((opportunity) => {
+            {filteredOpportunities.map((opportunity) => {
               const saved = savedIds.includes(opportunity.id);
 
               return (
                 <article className="opportunity-item" key={opportunity.id}>
                   {/* TOP */}
-
                   <div className="opportunity-item-top">
                     <span className="opportunity-tag">
                       {formatCategory(opportunity.category)}
@@ -237,23 +228,19 @@ function Opportunities() {
                   </div>
 
                   {/* TITLE */}
-
                   <h3>{opportunity.title}</h3>
 
                   {/* ORGANIZATION */}
-
                   <p className="opportunity-organization">
                     {opportunity.organization_name}
                   </p>
 
                   {/* DESCRIPTION */}
-
                   <p className="opportunity-description">
                     {opportunity.description}
                   </p>
 
                   {/* META */}
-
                   <div className="opportunity-meta">
                     <div>
                       <span>Location</span>
@@ -279,7 +266,6 @@ function Opportunities() {
                   </div>
 
                   {/* VIEW BUTTON */}
-
                   <button
                     className="view-opportunity"
                     onClick={() => navigate(`/opportunities/${opportunity.id}`)}

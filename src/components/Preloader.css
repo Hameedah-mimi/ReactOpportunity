@@ -1,0 +1,215 @@
+/* ================================
+   PRELOADER
+================================ */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--background);
+  color: var(--text);
+
+  z-index: 99999;
+
+  animation: preloaderFade 0.5s ease 1.8s forwards;
+}
+
+/* ================================
+   CONTENT
+================================ */
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  padding: 30px;
+}
+
+/* ================================
+   LOGO
+================================ */
+
+.preloader-logo {
+  width: 100px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 22px;
+
+  border-radius: 22px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.1);
+
+  animation: logoPulse 1.5s ease-in-out infinite;
+}
+
+.preloader-logo img {
+  width: 75px;
+  height: 75px;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+/* ================================
+   TITLE
+================================ */
+
+.preloader-content h2 {
+  margin: 0 0 8px;
+
+  color: var(--text);
+
+  font-size: 22px;
+  font-weight: 700;
+
+  letter-spacing: -0.4px;
+}
+
+/* ================================
+   DESCRIPTION
+================================ */
+
+.preloader-content p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ================================
+   LOADING DOTS
+================================ */
+
+.preloader-loader {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 25px;
+}
+
+.preloader-loader span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--primary);
+
+  animation: loadingDots 1.2s ease-in-out infinite;
+}
+
+.preloader-loader span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.preloader-loader span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ================================
+   ANIMATIONS
+================================ */
+
+@keyframes loadingDots {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes preloaderFade {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* ================================
+   DARK MODE
+================================ */
+
+.dark-mode .preloader {
+  background: var(--background);
+  color: var(--text);
+}
+
+.dark-mode .preloader-logo {
+  background: var(--surface);
+
+  border-color: var(--border);
+
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 500px) {
+  .preloader-logo {
+    width: 85px;
+    height: 85px;
+
+    border-radius: 18px;
+  }
+
+  .preloader-logo img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .preloader-content h2 {
+    font-size: 19px;
+  }
+
+  .preloader-content p {
+    font-size: 12px;
+  }
+}
