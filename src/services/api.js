@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://opportunityapp.onrender.com/api/",
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -31,9 +31,8 @@ api.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          // Request a new access token from Render
           const response = await axios.post(
-            "https://opportunityapp.onrender.com/api/token/refresh/",
+            `${import.meta.env.VITE_API_URL}token/refresh/`,
             {
               refresh: refreshToken,
             },
@@ -41,10 +40,8 @@ api.interceptors.response.use(
 
           const newAccessToken = response.data.access;
 
-          // Save the new access token
           localStorage.setItem("access", newAccessToken);
 
-          // Retry the original request with the new token
           error.config.headers.Authorization = `Bearer ${newAccessToken}`;
 
           return api(error.config);
@@ -53,7 +50,6 @@ api.interceptors.response.use(
         }
       }
 
-      // Remove expired tokens
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
 
